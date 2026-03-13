@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sparkly Nails - Services</title>
+    <style>
+        /* Modern reset */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Verdana', sans-serif;
+            
+            /* Theme 10: Y2K Pink Polka Dot Pattern */
+            background-color: #fcb8d3;
+            background-image: 
+                radial-gradient(circle at center, #ffffff 3px, transparent 3px),
+                radial-gradient(circle at center, #ffffff 3px, transparent 3px);
+            background-size: 24px 24px;
+            background-position: 0 0, 12px 12px;
+        }
+
+        .window {
+            /* Theme 10: Glossy Web 2.0 Messenger Window */
+            width: 900px;
+            max-width: 100%;
+            margin: 15px; /* Ensures a gap around the window on mobile */
+            background: #fcfcfc;
+            border: 2px solid #aa0044;
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(153, 0, 61, 0.3), 0 5px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden; /* Contains the title bar clipping */
+            display: flex;
+            flex-direction: column;
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.9); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .title-bar {
+            height: 38px;
+            /* Theme 10: Glossy Gradient Bar */
+            background: linear-gradient(180deg, 
+                #ffb3d1 0%, 
+                #ff66a3 40%, 
+                #e6005c 60%, 
+                #99003d 100%);
+            border-bottom: 2px solid #aa0044;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 12px 0 20px;
+            color: white;
+            font-weight: bold;
+            font-size: 15px;
+            user-select: none;
+        }
+
+        .title-bar-text {
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .title-icon {
+            font-size: 18px;
+            color: #ffb3d1;
+        }
+
+        .window-controls {
+            display: flex;
+            gap: 6px;
+        }
+
+        .control-btn {
+            width: 24px;
+            height: 18px;
+            background: #cc0000;
+            border: 1px solid #fff;
+            border-radius: 4px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            color: white;
+            font-size: 12px;
+            font-family: 'Arial', sans-serif;
+            box-shadow: inset 0 1px 3px rgba(255,255,255,0.6);
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        .control-btn:hover {
+            background: #ff1a1a;
+        }
+        
+        .control-btn:active {
+            transform: scale(0.95);
+        }
+
+        .control-btn.minimize { background: #0077dd; }
+        .control-btn.minimize:hover { background: #0099ff; }
+        .control-btn.maximize { background: #dd8800; }
+        .control-btn.maximize:hover { background: #ffaa00; }
+
+        .window-content {
+            padding: 25px;
+            background: #fcfcfc;
+        }
+
+        .inner-content {
+            background: #fff5f9;
+            border: 2px solid #ffcccc;
+            border-radius: 8px;
+            padding: 40px;
+            position: relative;
+        }
+
+        /* Fun decorative Sparkles */
+        .sparkle {
+            position: absolute;
+            color: #ffb3d1;
+            font-size: 24px;
+            animation: float 3s ease-in-out infinite alternate;
+        }
+        .sparkle.s1 { top: 20px; left: 30px; font-size: 32px; animation-delay: 0s; }
+        .sparkle.s2 { top: 40px; right: 40px; font-size: 20px; animation-delay: 1s; }
+        .sparkle.s3 { bottom: 30px; left: 50px; font-size: 28px; animation-delay: 0.5s; }
+        .sparkle.s4 { bottom: 20px; right: 30px; font-size: 36px; animation-delay: 1.5s; }
+
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg) scale(1); }
+            100% { transform: translateY(-10px) rotate(15deg) scale(1.1); }
+        }
+
+        .section-title {
+            text-align: center;
+            color: #cc0052;
+            font-size: 32px;
+            font-weight: bold;
+            letter-spacing: 6px;
+            margin: 0 0 15px 0;
+            text-transform: uppercase;
+            text-shadow: 1px 1px 0px #ffb3d1;
+            position: relative;
+            z-index: 2;
+        }
+
+        .divider {
+            height: 3px;
+            background: #cc0052;
+            width: 40%;
+            margin: 0 auto 40px auto;
+            border-radius: 2px;
+            box-shadow: 0 2px 5px rgba(204, 0, 82, 0.2);
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px 60px;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        @media (max-width: 768px) {
+            .window-content {
+                padding: 15px;
+            }
+            .inner-content {
+                padding: 20px 15px;
+            }
+            .menu-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+            .section-title {
+                font-size: 24px;
+                letter-spacing: 3px;
+                margin-bottom: 10px;
+            }
+            .divider {
+                width: 60%;
+                margin-bottom: 25px;
+            }
+            .menu-category {
+                font-size: 18px;
+            }
+            .menu-item-name {
+                font-size: 14px;
+                max-width: 75%;
+            }
+            .menu-item-price {
+                font-size: 15px;
+            }
+            .menu-item::after {
+                right: 40px;
+            }
+            .title-bar {
+                padding: 0 8px 0 12px;
+            }
+            .title-bar-text {
+                font-size: 13px;
+            }
+            .sparkle {
+                display: none; /* Hide on mobile to save space and reduce clutter */
+            }
+        }
+
+        .menu-category-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .menu-category {
+            color: #cc0052;
+            font-size: 22px;
+            font-weight: bold;
+            margin: 0 0 5px 0;
+            font-style: italic;
+            border-bottom: 2px dotted #ffcccc;
+            padding-bottom: 5px;
+        }
+
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            position: relative;
+        }
+
+        /* Dot leader effect between item name and price */
+        .menu-item::after {
+            content: " ....................................................";
+            position: absolute;
+            left: 0;
+            right: 50px;
+            bottom: 4px;
+            color: #ffcccc;
+            z-index: 1;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .menu-item-name {
+            color: #333;
+            font-size: 16px;
+            background: #fff5f9;
+            padding-right: 5px;
+            position: relative;
+            z-index: 2;
+            font-weight: 500;
+        }
+
+        .menu-item-price {
+            color: #e6005c;
+            font-size: 18px;
+            font-weight: bold;
+            background: #fff5f9;
+            padding-left: 5px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Hover effect on items just to make it dynamic */
+        .menu-item:hover .menu-item-name {
+            color: #e6005c;
+        }
+        .menu-item:hover .menu-item-price {
+            transform: scale(1.1);
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+    </style>
+</head>
+<body>
+
+    <div class="window">
+        <!-- Title Bar -->
+        <div class="title-bar">
+            <div class="title-bar-text">
+                <span class="title-icon">✨</span>
+                - Sparkly Nails Messenger -
+            </div>
+            <div class="window-controls">
+                <div class="control-btn minimize" title="Minimize">_</div>
+                <div class="control-btn maximize" title="Maximize">□</div>
+                <div class="control-btn" title="Close">X</div>
+            </div>
+        </div>
+
+        <!-- Window Content -->
+        <div class="window-content">
+            <div class="inner-content">
+                <!-- Sparkles -->
+                <div class="sparkle s1">✧</div>
+                <div class="sparkle s2">✨</div>
+                <div class="sparkle s3">⭐</div>
+                <div class="sparkle s4">✧</div>
+
+                <h1 class="section-title">P R I C E S</h1>
+                <div class="divider"></div>
+
+                <div class="menu-grid">
+                    
+                    <!-- Column 1 -->
+                    <div class="menu-category-container">
+                        <div class="menu-category">Natural Nails</div>
+                        <div class="menu-item">
+                            <span class="menu-item-name">Manicure shellac</span>
+                            <span class="menu-item-price">$45</span>
+                        </div>
+                        <div class="menu-item">
+                            <span class="menu-item-name">Shellac change</span>
+                            <span class="menu-item-price">$35</span>
+                        </div>
+                        <div class="menu-item">
+                            <span class="menu-item-name">Biogel overlay</span>
+                            <span class="menu-item-price">$55</span>
+                        </div>
+                        <div class="menu-item">
+                            <span class="menu-item-name">Manicure no color</span>
+                            <span class="menu-item-price">$27</span>
+                        </div>
+                    </div>
+
+                    <!-- Column 2 -->
+                    <div class="menu-category-container">
+                        <div class="menu-category">Extensions</div>
+                        <div class="menu-item">
+                            <span class="menu-item-name">Full Set (Tips+Biogel)</span>
+                            <span class="menu-item-price">$75</span>
+                        </div>
+                        <div class="menu-item">
+                            <span class="menu-item-name">Biogel Refill</span>
+                            <span class="menu-item-price">$60</span>
+                        </div>
+                    </div>
+
+                    <!-- Column 3 -->
+                    <div class="menu-category-container">
+                        <div class="menu-category">Extras</div>
+                        <div class="menu-item">
+                            <span class="menu-item-name">Removal (Shellac/Bio)</span>
+                            <span class="menu-item-price">$10+</span>
+                        </div>
+                        <div class="menu-item">
+                            <span class="menu-item-name">Removal (Extension)</span>
+                            <span class="menu-item-price">$20</span>
+                        </div>
+                        <div class="menu-item">
+                            <span class="menu-item-name">Tip (Per finger)</span>
+                            <span class="menu-item-price">$3</span>
+                        </div>
+                    </div>
+
+                    <!-- Column 4 -->
+                    <div class="menu-category-container">
+                        <div class="menu-category">Nails Art</div>
+                        <div class="menu-item">
+                            <span class="menu-item-name">Cateye Polish</span>
+                            <span class="menu-item-price">$10</span>
+                        </div>
+                        <div class="menu-item">
+                            <span class="menu-item-name">Simple Design (Ombre)</span>
+                            <span class="menu-item-price">$15</span>
+                        </div>
+                        <div class="menu-item">
+                            <span class="menu-item-name">Custom Art (Others)</span>
+                            <span class="menu-item-price">Ask</span>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
